@@ -1,24 +1,23 @@
-# 교회 행사 구슬 추첨
+# 교회 행사 구슬 추첨 · 2026-11-14 업데이트
 
-GitHub Pages 직접 업로드용으로 빌드한 웹앱입니다. 이 저장소의 Settings → Pages에서 Deploy from a branch / main / (root)를 선택해 게시합니다.
+행사 삭제, QR 크게 보기/전체 화면, 추첨 전 이름표 섞기를 추가했습니다.
 
-- 첫 화면: `index.html` → `cloud.html` (진행자 로그인)
-- 참가 접수: 진행자가 행사 생성 후 표시되는 QR 사용
-- 방송: 진행자 화면에서 발급하는 1회용 연결 링크 사용
-- 접수·명단·결과: 연결된 Supabase 프로젝트에 저장
-- `event.html`: 클라우드와 별개인 로컬 시제품
-- `source.zip`: 수정된 전체 소스와 DB 마이그레이션, 개발 설명서
+먼저 제공된 `Supabase-기능추가.sql`을 기존 프로젝트의 SQL Editor에서 실행하세요. 이 설정 파일 자체는 기존 행사나 명단을 지우지 않습니다. 이후 이 폴더 안의 파일을 모두 GitHub 저장소 루트에 업로드하여 같은 이름의 파일을 교체하세요. `index.html`이 루트에 있어야 합니다. Pages의 main / (root) 설정은 그대로 사용합니다.
 
-QR 주소는 현재 사이트의 폴더를 사용하므로 GitHub Pages 저장소 주소에서도 동작합니다. 기존 로컬 QR 대신 배포된 진행자 화면의 QR을 사용하세요. URL이나 행사 코드가 바뀌면 QR도 다시 확인하세요.
+기존 추첨을 마무리하거나 취소한 뒤 업데이트하고, 배포 후 진행자/방송 화면을 모두 새로 열어 주세요. 새 방송 코드는 기존 방송 코드와 엔진 버전이 다릅니다.
 
-## 개발 및 업데이트
+- 행사 삭제: 행사 소유자만 행사 이름을 정확히 입력한 후 실행. 해당 행사 명단과 모든 결과를 영구 삭제하므로 필요하면 먼저 당첨 기록을 내려받으세요. 추첨 준비/진행 중에는 삭제할 수 없습니다.
+- QR 크게 보기: 행사 이름/접수 상태/큰 QR만 표시. 전체 화면 및 닫기/Esc 지원.
+- 이름표 섞기: 방송을 연결한 후 버튼을 누르면 무작위 이름 배치를 미리 보여줍니다. 그 배치로 추첨을 시작합니다. 명단이나 맵이 달라지면 다시 섞어야 합니다. 바로 시작할 때도 자동으로 무작위 배치를 만듭니다.
+- 참가 번호/이름/동명이인 식별자는 보존합니다. 이 섞기 기능은 동일한 당첨 확률의 보증은 아닙니다.
 
-`source.zip`을 풀고 `CLOUD-README.md`를 참고합니다. `.env.local`은 포함하지 않습니다. 공개 프로젝트 URL·Publishable key를 다시 설정한 뒤 `pnpm build:cloud`로 빌드하세요. 수정 후에는 HTML만이 아니라 새 빌드 파일 전체를 함께 교체해야 합니다. 배포 파일에는 브라우저 연결에 필요한 공개키가 포함되어 있으며 DB 비밀번호·service_role 키는 사용하지 않습니다.
+QR은 현재 사이트 주소를 사용하므로 배포된 진행자 페이지에서 표시되는 QR을 이용하세요. 참가 명단/결과는 Supabase에 저장합니다. 배포 파일에 포함된 연결키는 브라우저용 publishable key입니다. 비밀번호/secret/service_role 키와 .env.local은 포함하지 않습니다.
 
-프로젝트 생성·익명 로그인·DB API 응답은 확인했습니다. 실제 진행자 로그인, 휴대폰 등록, Realtime 및 행사장 300명 동시 접수 검증은 배포 후 진행합니다. 공개 행사 전에 CAPTCHA 연결과 익명 로그인 허용량을 확인해야 합니다.
+자동 검사 31개, TypeScript 및 배포 빌드 통과. 로컬 합성 계정으로 이름표 미리보기→시작→결과 저장, QR 확대, 삭제 확인창을 검증했습니다. 실제 Supabase 마이그레이션 적용 및 배포 확인은 별도로 필요합니다.
 
-## 원본과 라이선스
+## 소스와 라이선스
 
-Based on [Marble Roulette by lazygyu](https://github.com/lazygyu/roulette), upstream `e9a9d22b040d3acf8f7b581285d1dd39bbe9c2b1`.
+`source.zip`에 수정된 전체 소스, SQL 마이그레이션, 개발 설명서를 담았습니다. 개발 시 압축을 풀고 `CLOUD-README.md`를 참고하세요. 이 ZIP은 소스 보관용이며 웹사이트 실행에는 풀 필요가 없습니다.
 
-MIT License · Copyright (c) 2022 LazyGyu. `LICENSE`, `license.html`, `THIRD_PARTY_NOTICES.txt`를 함께 보존합니다. 행사 앱은 별도 이름을 사용하며 원본 상표는 원저작자에게 귀속됩니다.
+Based on [Marble Roulette by lazygyu](https://github.com/lazygyu/roulette), upstream e9a9d22b040d3acf8f7b581285d1dd39bbe9c2b1.
+MIT License · Copyright (c) 2022 LazyGyu. LICENSE, license.html, THIRD_PARTY_NOTICES.txt를 보존합니다. 원본 맵/물리 엔진은 변경하지 않았습니다.
